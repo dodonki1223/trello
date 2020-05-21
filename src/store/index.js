@@ -48,15 +48,15 @@ const store = new Vuex.Store({
   // データの状態変更と非同期通信は役割で分けて考えるべき
   // mutaions はストアの状態の変更だけを行う mutaions の呼び出しは actions が行う
   mutations: {
-    addlist(state, payload) {
+    addList(state, payload) {
       state.lists.push({ title: payload.title, cards:[] })
     },
   },
   // actions は第一引数に context(ストアインスタンスのメソッドやプロパティを呼び出せるオブジェクト)
   //           第二引数に mutations にわたす引数
   actions: {
-    addlist(context, payload) {
-      context.commit('addlist', payload)
+    addList(context, payload) {
+      context.commit('addList', payload)
     },
   },
   // ストアの定義ファイルが1ファイルのみで十分なため modulesは削除し getters を定義する
