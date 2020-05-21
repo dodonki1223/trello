@@ -39,7 +39,7 @@ export default {
   methods: {
     addList: function() {
       // this.$store.dispatch('アクション名') で actions を実行できます
-      this.$store.dispatch('addList', { title: this.title })
+      this.$store.dispatch('addlist', { title: this.title })
       this.title = ''
     },
   }
