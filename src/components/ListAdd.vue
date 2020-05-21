@@ -2,8 +2,10 @@
   <!-- 
     v-on ディレクティブでイベントをハンドルでき、 @ は v-on の省略記法になる                                                 
     .prevent はVueイベントの修飾詞であり、サブミット時にリロードされるのを防ぐ 
+
+    class に classList() をバインドさせる
   -->
-  <form class="addlist" @submit.prevent="addList">
+  <form :class="classList" @submit.prevent="addList">
     <!-- 
       v-model に titleを定義することで、 data プロパティとバインドさせます 
       データをバインドさせる（データバインディング）とは、scriptで定義した data プロパティをテンプレート
@@ -17,13 +19,19 @@
       @input"title = $event.target.value" で <input> フォームに値が入力された際にその値を title に代入します
 
       v-model は input、select、textareaなどのフォーム要素に対して使用することができる
+
+      focusin、focusoutに関しては以下のドキュメントを確認すべし
+        https://developer.mozilla.org/ja/docs/Web/API/Element/focusin_event
     -->
     <input v-model="title"
            type="text"
            class="text-input"
            placeholder="Add new list"
+           @focusin="startEditing"
+           @focusout="finishEditing"
     >
-    <button type="submit" class="add-button">
+    <button type="submit" 
+            class="add-button">
       Add
     </button>
   </form>
@@ -34,6 +42,16 @@ export default {
   data: function() {
     return {
       title: '',
+      isEditing: false,
+    }
+  },
+  // dataの状態を監視できる computed
+  computed: {
+    // isEditing の値を監視して変更されていたら `active` の class を追加する処理
+    classList() {
+      const classList = ['add-list']
+      if (this.isEditing) classList.push('active')
+      return classList
     }
   },
   methods: {
@@ -41,6 +59,12 @@ export default {
       // this.$store.dispatch('アクション名') で actions を実行できます
       this.$store.dispatch('addList', { title: this.title })
       this.title = ''
+    },
+    startEditing() {
+      this.isEditing = true
+    },
+    finishEditing() {
+      this.isEditing = false
     },
   }
 }

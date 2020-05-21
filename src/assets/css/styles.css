@@ -34,7 +34,7 @@ main {
   display: flex;
 }
 
-.addlist {
+.add-list {
   margin: 0 10px auto;
   display: inline-block;
   flex-direction: column;
@@ -168,4 +168,8 @@ main {
   font-size: 18px;
   width: 100%;
   word-wrap: break-word;
+}
+
+.active .text-input {
+  background-color: #fff;
 }
