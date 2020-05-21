@@ -4,6 +4,8 @@
     .prevent はVueイベントの修飾詞であり、サブミット時にリロードされるのを防ぐ 
 
     class に classList() をバインドさせる
+    別の書き方としてこんな感じで書くこともできる
+      :class="['addcard',  { 'active': isEditing, 'addable': titleExists }]"
   -->
   <form :class="classList" @submit.prevent="addList">
     <!-- 
@@ -22,6 +24,9 @@
 
       focusin、focusoutに関しては以下のドキュメントを確認すべし
         https://developer.mozilla.org/ja/docs/Web/API/Element/focusin_event
+      下記のように記述すればmethodsを使用する必要がなくなる
+        @focusin="isEditing = true"
+        @focusout="isEditing = false"
     -->
     <input v-model="title"
            type="text"
@@ -31,7 +36,8 @@
            @focusout="finishEditing"
     >
     <button type="submit" 
-            class="add-button">
+            class="add-button"
+            v-if="isEditing || titleExists">
       Add
     </button>
   </form>
@@ -45,13 +51,36 @@ export default {
       isEditing: false,
     }
   },
+  /*
+    <computed と methods の使い分けについて>
+    computedはキャッシュされる！！！
+
+    computedは監視しているdataに依存しているので、そのdataが変化したときにだけ処理が実行される
+    一方、methodsは再描画されたときなど呼び出されるたびに処理が実行される
+    例えば、Date.now()で今日の日付を取得したり、Math.random()でランダムな数値を取得するときはキャッシュ
+    が効いて一度表示された値から変わらない
+
+    上記のそれぞれの特性から使い分けるのがよいですが、頻繁に処理が行われるものというよりは、
+    dataを加工してテンプレートで使用したいという時は基本的に computed を使用する（Date.now()やMath.random()の
+    ようにキャッシュが効いてほしくない時は除く）
+
+    startEditingとfinishEditingですが@focusinと@focusoutのイベントに紐づいて処理を行なっている部分なので
+    役割的にmethodsを使うことになります（データを加工して表示する部分ではない）
+   */
+
   // dataの状態を監視できる computed
   computed: {
     // isEditing の値を監視して変更されていたら `active` の class を追加する処理
     classList() {
       const classList = ['add-list']
-      if (this.isEditing) classList.push('active')
+
+      if (this.isEditing)   classList.push('active')
+      if (this.titleExists) classList.push('addable')
+
       return classList
+    },
+    titleExists() {
+      return this.title.length > 0
     }
   },
   methods: {
