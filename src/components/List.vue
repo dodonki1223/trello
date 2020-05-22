@@ -1,10 +1,10 @@
 <template>
   <div class="list">
-    <div class="listheader">
+    <div class="list-header">
       <!-- props で定義している title の値が変更されるたびに変わります -->
       <p class="list-title">{{ title }}</p>
       <!-- removeListメソッドをハンドルしている -->
-      <div class="deletelist" @click="removeList">x</div>
+      <div class="delete-list" @click="removeList">x</div>
     </div>
   </div>
 </template>
@@ -16,6 +16,10 @@ export default {
   props: {
     title: {
       type: String,
+      required: true
+    },
+    listIndex: {
+      type: Number,
       required: true
     }
   },

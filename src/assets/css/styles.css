@@ -109,7 +109,7 @@ main {
   vertical-align: top;
 }
 
-.listheader {
+.list-header {
   width: 290px;
   display: inline-flex;
   justify-content: space-between;
@@ -126,14 +126,14 @@ main {
   padding: 15px;
 }
 
-.deletelist {
+.delete-list {
   position: absolute;
   top: 6px;
   right: 14px;
   font-size: 28px;
 }
 
-.deletelist:hover {
+.delete-list:hover {
   opacity: 0.8;
   cursor: pointer;
 }
