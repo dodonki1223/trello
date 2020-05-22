@@ -2,6 +2,7 @@
   <!-- 
     v-on ディレクティブでイベントをハンドルでき、 @ は v-on の省略記法になる                                                 
     .prevent はVueイベントの修飾詞であり、サブミット時にリロードされるのを防ぐ 
+    v-on については https://jp.vuejs.org/v2/guide/events.html を参照してください
 
     class に classList() をバインドさせる
     別の書き方としてこんな感じで書くこともできる

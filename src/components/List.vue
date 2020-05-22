@@ -6,11 +6,17 @@
       <!-- removeListメソッドをハンドルしている -->
       <div class="delete-list" @click="removeList">x</div>
     </div>
+    <card-add :listIndex="listIndex" />
   </div>
 </template>
 
 <script>
+import CardAdd from "./CardAdd";
+
 export default {
+  components: {
+    CardAdd
+  },
   // propsについては下記ドキュメントを参照すること
   //   https://jp.vuejs.org/v2/guide/components-props.html
   props: {
