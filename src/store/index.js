@@ -55,6 +55,9 @@ const store = new Vuex.Store({
     removeList(state, payload) {
       state.lists.splice(payload.listIndex, 1)
     },
+    addCardToList(state, payload) {
+      state.lists[payload.listIndex].cards.push({ body: payload.body })
+    },
   },
   // actions は第一引数に context(ストアインスタンスのメソッドやプロパティを呼び出せるオブジェクト)
   //           第二引数に mutations にわたす引数
@@ -64,6 +67,9 @@ const store = new Vuex.Store({
     },
     removeList(context, payload) {
       context.commit('removeList', payload)
+    },
+    addCardToList(context, payload) {
+      context.commit('addCardToList', payload)
     },
   },
   // ストアの定義ファイルが1ファイルのみで十分なため modulesは削除し getters を定義する
