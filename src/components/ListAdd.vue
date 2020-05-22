@@ -7,6 +7,8 @@
     class に classList() をバインドさせる
     別の書き方としてこんな感じで書くこともできる
       :class="['addcard',  { 'active': isEditing, 'addable': titleExists }]"
+    : は v-bind の省略記法になる
+      詳しくは https://jp.vuejs.org/v2/guide/syntax.html#%E7%9C%81%E7%95%A5%E8%A8%98%E6%B3%95 を参照してください
   -->
   <form :class="classList" @submit.prevent="addList">
     <!-- 

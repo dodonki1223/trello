@@ -1,13 +1,16 @@
 <template>
   <!-- サブミット時に addCardToList メソッドをハンドルしています -->
-  <form class="addcard" @submit.prevent="addCardToList">
+  <form :class="classList" @submit.prevent="addCardToList">
     <!-- v-model に body を定義することで、 data プロパティとバインドさせます -->
-    <input v-model="body"
-           type="text"
+    <input type="text"
            class="text-input"
+           v-model="body"
            placeholder="Add new card"
+           @focusin="startEditing"
+           @focusout="finishEditing"
     />
-    <button type="submit" class="add-button">
+    <button type="submit"
+            class="add-button">
       Add
     </button>
   </form>
@@ -24,6 +27,14 @@ export default {
   data: function() {
     return {
       body: '',
+      isEditing: false,
+    }
+  },
+  computed: {
+    classList() {
+      const classList = ['addcard']
+      if (this.isEditing) classList.push('active')
+      return classList
     }
   },
   methods: {
@@ -31,7 +42,13 @@ export default {
       // dispatch で actions に定義した addCardToList を実行します
       this.$store.dispatch('addCardToList', { body: this.body, listIndex: this.listIndex })
       this.body = ''
-    }
+    },
+    startEditing: function() {
+      this.isEditing = true
+    },
+    finishEditing: function() {
+      this.isEditing = false
+    },
   }
 }
 </script>
