@@ -6,22 +6,39 @@
       <!-- removeListメソッドをハンドルしている -->
       <div class="delete-list" @click="removeList">x</div>
     </div>
+    <!--  
+      cards を v-for ディレクティブを使って展開します
+      key 属性には、一意な item.id を設定
+      展開した値を v-bind ディレクティブを使ってバインドさせます
+    -->
+    <card v-for="(item, index) in cards"
+          :body="item.body"
+          :key="item.id"
+          :cardIndex="index"
+          :listIndex="listIndex"
+    />
     <card-add :listIndex="listIndex" />
   </div>
 </template>
 
 <script>
-import CardAdd from "./CardAdd";
+import CardAdd from "./CardAdd"
+import Card from "./Card"
 
 export default {
   components: {
-    CardAdd
+    CardAdd,
+    Card
   },
   // propsについては下記ドキュメントを参照すること
   //   https://jp.vuejs.org/v2/guide/components-props.html
   props: {
     title: {
       type: String,
+      required: true
+    },
+    cards: {
+      type: Array,
       required: true
     },
     listIndex: {
