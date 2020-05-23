@@ -79,7 +79,20 @@ const store = new Vuex.Store({
     },
   },
   // ストアの定義ファイルが1ファイルのみで十分なため modulesは削除し getters を定義する
+  // 
+  // getters は第一引数に state、第二引数に他の getters を受け取ることができます
+  // なので他の getters で算出したものから、さらに何か算出したいという実装も可能
   getters: {
+    // 全体のカードの総数はストアの state で管理している cards の数を合計して返してあげるのがよいでしょう
+    // このように state のデータから算出したものをコンポーネントで取得したい時に getters を使います
+    totalCardCount(state) {
+      let count = 0
+      // mapについて下記公式のドキュメント参照すること
+      // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+      // こんな感じで総数を計算できるんですねー
+      state.lists.map(content => count += content.cards.length)
+      return count
+    }
   }
 })
 

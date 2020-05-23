@@ -4,7 +4,7 @@
       my Trello
     </header>
     <main>
-      <p class="info-line">All: 0 tasks</p>
+      <p class="info-line">All: {{ totalCardCount }} tasks</p>
       <div class="list-index">
         <!-- 
           v-for を使う時、key属性を与えることが必須である
@@ -62,6 +62,9 @@ export default {
     ...mapState([
       'lists'
     ]),
+    totalCardCount() {
+      return this.$store.getters.totalCardCount
+    }
   },
 }
 </script>
