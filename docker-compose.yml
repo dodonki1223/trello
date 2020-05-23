@@ -27,6 +27,10 @@ services:
   # docker-compose run --rm runner で実行（npm install などを使用する用）
   runner:
     <<: *app
+    environment:
+      # コンテナのhistoryファイルをホストに保存し次回、立ち上げ時にも
+      # 使用したコマンドを使えるようにする
+      HISTFILE: /app/log/.ash_history
     stdin_open: true
     tty: true
     command: /bin/sh
