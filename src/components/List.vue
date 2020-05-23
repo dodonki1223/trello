@@ -7,27 +7,55 @@
       <!-- removeListメソッドをハンドルしている -->
       <div class="delete-list" @click="removeList">x</div>
     </div>
-    <!--  
-      cards を v-for ディレクティブを使って展開します
-      key 属性には、一意な item.id を設定
-      展開した値を v-bind ディレクティブを使ってバインドさせます
-    -->
-    <card v-for="(item, index) in cards"
-          :body="item.body"
-          :key="item.id"
-          :cardIndex="index"
-          :listIndex="listIndex"
-    />
+    <!-- 
+      Vue.Draggable
+        詳しくは公式サイトへ：https://github.com/SortableJS/Vue.Draggable
+        <使い方>
+          ----------------------------------------------------------------
+          <template>
+            <draggable>
+              ★ここにドラッグ&ドロップさせたいコンポーネントを挿入します
+            </draggable>
+          </template>
+          <script>
+          import draggable from 'vuedraggable'
+
+          export default {
+            components: {
+              draggable,
+            },
+          }
+          </script>
+          ----------------------------------------------------------------
+
+      <template> 内でドラッグ＆ドロップさせたいコンポーネントを挟むように配置します
+      ドラッグ＆ドロップさせたいコンポーネントは基本的に <draggable> の直下に置かないとドラッグ＆ドロップできません
+     -->
+    <draggable>
+      <!--  
+        cards を v-for ディレクティブを使って展開します
+        key 属性には、一意な item.id を設定
+        展開した値を v-bind ディレクティブを使ってバインドさせます
+      -->
+      <card v-for="(item, index) in cards"
+            :body="item.body"
+            :key="item.id"
+            :cardIndex="index"
+            :listIndex="listIndex"
+      />
+    </draggable>
     <card-add :listIndex="listIndex" />
   </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable';
 import CardAdd from "./CardAdd"
 import Card from "./Card"
 
 export default {
   components: {
+    draggable,
     CardAdd,
     Card
   },
