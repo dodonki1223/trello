@@ -1,0 +1,35 @@
+version: "3.7"
+
+x-app: &app
+  build: .
+  volumes:
+    # :cachedはMacOSでのDocker環境の効率を高めるための設定
+    #   コンテナとホスト間でファイルの状態に一貫性を持たせているが、この設定をONにする(コンテナとホスト間の一時的な不整合を許可する)と、
+    #   ファイルシステムの状態をキャッシュできるようになり、コンテナとMacOS間の不要な通信が回避され、パフォーマンスが向上する
+    #   ただしホストで行われた更新がコンテナ内で表示されるまで遅延が発生する場合がある
+    #   https://docs.docker.com/docker-for-mac/osxfs-caching/
+    #   https://www.docker.com/blog/user-guided-caching-in-docker-for-mac/#h.gwo2at29v042
+    - .:/app:cached
+    # Dockerボリュームに配置しホストマシンでディスク操作が重くなるのを回避
+    - node_modules:/app/node_modules
+
+services:
+  trello:
+    <<: *app
+    # 「標準出力の接続先デバイス=tty」の設定
+    #  この記事がわかりやすい:https://ohbarye.hatenablog.jp/entry/2019/05/05/learn-tty-with-docker
+    #  コンテナが立ち上がった後も標準出力の結果を画面に表示させる
+    tty: true
+    command: npm run serve
+    ports:
+      - '8080:8080'
+
+  # docker-compose run --rm runner で実行（npm install などを使用する用）
+  runner:
+    <<: *app
+    stdin_open: true
+    tty: true
+    command: /bin/sh
+
+volumes:
+  node_modules:
