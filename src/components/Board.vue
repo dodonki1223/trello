@@ -5,7 +5,9 @@
     </header>
     <main>
       <p class="info-line">All: {{ totalCardCount }} tasks</p>
-      <draggable :list="lists" class="list-index">
+      <draggable :list="lists" 
+                 @end="movingList"
+                 class="list-index">
         <!-- 
           v-for を使う時、key属性を与えることが必須である
             公式のスタイルガイド：https://jp.vuejs.org/v2/style-guide/#%E3%82%AD%E3%83%BC%E4%BB%98%E3%81%8D-v-for-%E5%BF%85%E9%A0%88
@@ -73,6 +75,9 @@ export default {
   },
   methods: {
     movingCard: function() {
+      this.$store.dispatch('updateList', { lists: this.lists })
+    },
+    movingList: function() {
       this.$store.dispatch('updateList', { lists: this.lists })
     },
   }
