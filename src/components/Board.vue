@@ -5,7 +5,7 @@
     </header>
     <main>
       <p class="info-line">All: {{ totalCardCount }} tasks</p>
-      <div class="list-index">
+      <draggable :list="lists" class="list-index">
         <!-- 
           v-for を使う時、key属性を与えることが必須である
             公式のスタイルガイド：https://jp.vuejs.org/v2/style-guide/#%E3%82%AD%E3%83%BC%E4%BB%98%E3%81%8D-v-for-%E5%BF%85%E9%A0%88
@@ -33,18 +33,20 @@
           ListAdd コンポーネントの呼び出し
         -->
         <list-add />
-      </div>
+      </draggable>
     </main>
   </div>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import ListAdd from './ListAdd.vue'
 import List from './List.vue'
 import { mapState } from 'vuex'
 
 export default {
   components: {
+    draggable,
     ListAdd,
     List,
   },

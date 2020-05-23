@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
+import draggable from 'vuedraggable'
 import CardAdd from "./CardAdd"
 import Card from "./Card"
 
