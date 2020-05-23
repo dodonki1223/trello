@@ -1,11 +1,19 @@
 version: "3.7"
 
 x-app: &app
-  build: .
+  build: 
+    context: .
+    dockerfile: ./.dockerdev/Dockerfile
   volumes:
+    # `/root/.profile` はログインシェル用に読み込まれるが非ログインインタラクティブシェルでは読み込まれない
+    # なので `ENV=/root/.ashrc` を指定し非ログインインタラクティブシェルの時は `/root/.ashrc` のファイルを読み込むようにする
+    # 詳しくは stack overflow の記事を参照すること
+    #   https://stackoverflow.com/questions/40538283/how-does-ash-files-are-structured
+    - .dockerdev/.profile:/root/.profile:ro
+    - .dockerdev/.ashrc:/root/.ashrc
     # :cachedはMacOSでのDocker環境の効率を高めるための設定
     #   コンテナとホスト間でファイルの状態に一貫性を持たせているが、この設定をONにする(コンテナとホスト間の一時的な不整合を許可する)と、
-    #   ファイルシステムの状態をキャッシュできるようになり、コンテナとMacOS間の不要な通信が回避され、パフォーマンスが向上する
+    #   ファイルシステムの状態をキャッシできるようになり、コンテナとMacOS間の不要な通信が回避され、パフォーマンスが向上する
     #   ただしホストで行われた更新がコンテナ内で表示されるまで遅延が発生する場合がある
     #   https://docs.docker.com/docker-for-mac/osxfs-caching/
     #   https://www.docker.com/blog/user-guided-caching-in-docker-for-mac/#h.gwo2at29v042
@@ -33,7 +41,10 @@ services:
       HISTFILE: /app/log/.ash_history
     stdin_open: true
     tty: true
-    command: /bin/sh
+    # 実行時に `/root/.profile` を読み込むようにし `/root/.ashrc` に記述されたエイリアスを使えるようにする
+    command: >
+      ash -c "source /root/.profile &&
+      /bin/ash"
 
 volumes:
   node_modules:
