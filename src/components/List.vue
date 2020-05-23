@@ -36,8 +36,25 @@
 
       条件として互いのコンポーネントを同じ name にすることで実装できます
       ここでの name は cards です
+
+      draggable コンポーネントは props の1つとして、 list プロパティを受け取ります
+      list プロパティはコンポーネントがドラッグ＆ドロップされるたびに定義された cards のデータを更新してくれます
+      props で受け取った値は直接更新してはいけないという Vue のルールがありました
+      今回の list は特別ですが、基本的に props で受け取った値は直接更新できない
+      詳しくはVueのドキュメントを参照してください
+        https://jp.vuejs.org/v2/guide/components-props.html#%E5%8D%98%E6%96%B9%E5%90%91%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%83%AD%E3%83%BC
+
+      カードを並び替えた時、イベントをハンドルして、全体の lists データをストアに保存する
+      カードを並び替えた時のイベントを List.vue でハンドルして、 Board.vue に伝える
+      end イベントはドラッグ＆ドロップの操作が終わったあと、最後に発生するイベントです
+      子コンポーネントから親コンポーネントにデータを受け渡すことも可能です
+      change イベントを Board.vue でも受け取れるようにしておく
+      詳しくはVueのドキュメントを参照してください
+        https://jp.vuejs.org/v2/guide/components.html#%E5%AD%90%E3%82%B3%E3%83%B3%E3%83%9D%E3%83%BC%E3%83%8D%E3%83%B3%E3%83%88%E3%81%AE%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%82%92%E8%B3%BC%E8%AA%AD%E3%81%99%E3%82%8B
      -->
-    <draggable group="cards">
+    <draggable group="cards" 
+               :list="cards"
+               @end="$emit('change')">
       <!--  
         cards を v-for ディレクティブを使って展開します
         key 属性には、一意な item.id を設定

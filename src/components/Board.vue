@@ -14,12 +14,15 @@
           :title は v-bind の省略記法
 
           List コンポーネントの呼び出し 
+          change イベントをハンドルし、movingCard メソッドを発火させます
+          movingCard メソッドでストアの actions を呼び出します
         -->
         <list v-for="(item, index) in lists"
               :key="item.id"
               :title="item.title"
               :cards="item.cards"
               :listIndex="index"
+              @change="movingCard"
         />
         <!-- 
           下記のようなエラーが出た……
@@ -66,5 +69,10 @@ export default {
       return this.$store.getters.totalCardCount
     }
   },
+  methods: {
+    movingCard: function() {
+      this.$store.dispatch('updateList', { lists: this.lists })
+    },
+  }
 }
 </script>
