@@ -36,6 +36,8 @@ $ docker-compose up trello
 $ docker-compose run --rm runner
 ```
 
+## その他
+
 ### Vuexについて
 
 このプロジェクトではVuexを使用しているのでVuexの概念をちゃんと図で頭に入っているとすごく理解しやすい  
@@ -44,3 +46,13 @@ $ docker-compose run --rm runner
 - [Vuex とは何か？ | Vuex](https://vuex.vuejs.org/ja/)
 
 ![Vuexの概念](https://cdn.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:2500/https://www.filepicker.io/api/file/l4FvH7cSZKEmv6OpVxts)
+
+### 開発環境を削除する
+
+コンテナ、イメージ、ボリューム、ネットワークをすべて一括で削除します
+
+```shell
+$ docker-compose down --rmi all --volumes
+```
+
+参考記事：[《滅びの呪文》Docker Composeで作ったコンテナ、イメージ、ボリューム、ネットワークを一括完全消去する便利コマンド - Qiita](https://qiita.com/suin/items/19d65e191b96a0079417)
